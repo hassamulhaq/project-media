@@ -111,8 +111,24 @@ class FormTask
 
         return $response;
     }
+
+
+
+
+
+    public function getRecords()
+    {
+        return ['N/A'];
+    }
 }
 
-$obj = new FormTask();
-$obj->save();
+// save data to database
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $obj = new FormTask();
+    $obj->save();
+}
 
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    $obj = new FormTask();
+    $obj->getRecords();
+}
