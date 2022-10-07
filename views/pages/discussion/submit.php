@@ -75,7 +75,7 @@ class Discussion
 
             // Verify file extension
             $ext = pathinfo($filename, PATHINFO_EXTENSION);
-            if(!array_key_exists($ext, $allowed)) return $response = ['success' => 'error', 'message' => 'Error: Please select a valid file format.'];
+            if(!array_key_exists($ext, $allowed)) return $response = ['success' => false, 'message' => 'Error: Please select a valid file format.'];
 
             // Verify file size - 140MB maximum
             $maxsize = 140 * 1024 * 1024;
