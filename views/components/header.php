@@ -7,7 +7,6 @@
 
     <link rel="stylesheet" type="text/css" href="<?php echo base_url() . 'public/plugins/bootstrap-5.2.2/css/bootstrap.min.css' ?>"/>
     <link rel="stylesheet" type="text/css" href="<?php echo base_url() . 'public/plugins/DataTables/datatables.min.css' ?>"/>
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css">
 
 </head>
 <body>

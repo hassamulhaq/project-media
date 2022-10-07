@@ -1,6 +1,12 @@
 <?php require_once "../../../autoload_files.php"; ?>
 <?php include_once root_path() . '/views/components/header.php' ?>
 
+<style>
+    .dt-buttons.btn-group.flex-wrap {
+        padding-top: 6px;
+        padding-bottom: 6px;
+    }
+</style>
 
     <div class="container">
         <div class="row">
@@ -11,49 +17,51 @@
                         <a href="<?php echo base_url() . 'views/pages/discussion/create.php' ?>" class="btn btn-sm btn-dark float-end">Create New</a>
                     </div>
                     <div class="card-body text-dark">
-                        <table id="pdf-datatables" class="table table-condensed table-sm table-bordered">
-                            <thead>
-                            <tr>
-                                <th scope="col">S.No</th>
-                                <th scope="col">File No</th>
-                                <th scope="col">Subject</th>
-                                <th scope="col">Head No</th>
-                                <th scope="col">Sub-Head No</th>
-                                <th scope="col">Year</th>
-                                <th scope="col">Download</th>
-                                <th scope="col">View</th>
-                                <th scope="col">Date</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>125</td>
-                                <td>Financial Matter</td>
-                                <td>1</td>
-                                <td>2</td>
-                                <td>2022</td>
-                                <td><a href="" class="btn btn-sm btn-light border rounded-0">🔽 Download</a></td>
-                                <td>
-                                    <a href="" data-bs-toggle="modal" data-bs-target="#staticMediaModal" class="btn btn-sm btn-success rounded-0">View</a>
-                                </td>
-                                <td><a href="" class="btn btn-sm btn-danger rounded-0">Delete</a></td>
-                            </tr>
-                            </tbody>
-                            <tfoot>
-                            <tr>
-                                <th scope="col">S.No</th>
-                                <th scope="col">File No</th>
-                                <th scope="col">Subject</th>
-                                <th scope="col">Head No</th>
-                                <th scope="col">Sub-Head No</th>
-                                <th scope="col">Year</th>
-                                <th scope="col">Download</th>
-                                <th scope="col">View</th>
-                                <th scope="col">Date</th>
-                            </tr>
-                            </tfoot>
-                        </table>
+                        <div id="datatable-wrapper">
+                            <table id="pdf-datatables" class="table table-condensed table-sm table-bordered">
+                                <thead>
+                                <tr>
+                                    <th scope="col">S.No</th>
+                                    <th scope="col">File No</th>
+                                    <th scope="col">Subject</th>
+                                    <th scope="col">Head No</th>
+                                    <th scope="col">Sub-Head No</th>
+                                    <th scope="col">Year</th>
+                                    <th scope="col">Download</th>
+                                    <th scope="col">View</th>
+                                    <th scope="col">Delete</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <th scope="row">1</th>
+                                    <td>125</td>
+                                    <td>Financial Matter</td>
+                                    <td>1</td>
+                                    <td>2</td>
+                                    <td>2022</td>
+                                    <td><a href="" class="btn btn-sm btn-light border rounded-0">🔽 Download</a></td>
+                                    <td>
+                                        <a href="" data-bs-toggle="modal" data-bs-target="#staticMediaModal" class="btn btn-sm btn-success rounded-0">View</a>
+                                    </td>
+                                    <td><a href="" class="btn btn-sm btn-danger rounded-0">Delete</a></td>
+                                </tr>
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <th scope="col">S.No</th>
+                                    <th scope="col">File No</th>
+                                    <th scope="col">Subject</th>
+                                    <th scope="col">Head No</th>
+                                    <th scope="col">Sub-Head No</th>
+                                    <th scope="col">Year</th>
+                                    <th scope="col">Download</th>
+                                    <th scope="col">View</th>
+                                    <th scope="col">Delete</th>
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
