@@ -16,23 +16,26 @@ class Discussion
     public function save()
     {
         try {
+            $this->conn->beginTransaction();
+
             $subject = $_POST['subject'];
             $file_number = $_POST['file_number'];
             $f_head_no = $_POST['f_head_no'];
             $sub_head_no = $_POST['sub_head_no'];
             $file_year = $_POST['file_year'];
 
-            if(isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
+            // check if user selected a file
+            if(!empty($_FILES["file"]['name'])) {
                 $res = $this->uploadFile($_FILES);
-                if ($res['success']) {
-                    $file_path = $res['file_path'];
-                } else {
+                if (!$res['success']) { // means error
                     echo json_encode([
                         'success' => $res['success'],
                         'message' => $res['message']
                     ]);
                     exit;
                 }
+
+                $file_path = $res['file_path'];
             }
 
             $statement = $this->conn->prepare('INSERT INTO files (subject, file_number, f_head_no, sub_head_no, file_year, file_path) VALUES (:subject, :file_number, :f_head_no, :sub_head_no, :file_year, :file_path)');
@@ -44,31 +47,31 @@ class Discussion
                 'file_year' => $file_year,
                 'file_path' => isset($file_path) ? $file_path : '',
             ]);
+            $this->conn->commit();
+            echo json_encode(['success' => true, 'message' => 'Record Added!']);
+
         } catch (Exception $e) {
-            echo $e->getMessage();
+            $this->conn->rollback();
+            echo json_encode(['success' => false, 'message' => 'Data Not saved', 'errors' => $e->getMessage()]);
         }
     }
 
 
     public function uploadFile($fileObj)
     {
-        var_dump($_FILES);
+        ini_set('file_uploads', 'on');
+        ini_set('upload_max_filesize', '128M');
+        ini_set('post_max_size', '128M'); // it will be greater to same like upload_max_filesize
 
-        ini_set('upload_max_filesize', '200M');
-        ini_set('post_max_size', '200M'); // it will be greater to same like upload_max_filesize
-
-        $path = './public/files/';
-        if (!file_exists($path)) {
-            mkdir($path, 0777, true);
-        }
+        $movedToPath = filesUploadPath();
+        $path = FILES_PATH; // comes from autoload_files.php
 
         $response = [];
-
-        if(isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
+        if(isset($fileObj["file"]) && $fileObj["file"]["error"] == 0) {
             $allowed = array("pdf" => "application/pdf");
-            $filename = $_FILES["file"]["name"];
-            $filetype = $_FILES["file"]["type"];
-            $filesize = $_FILES["file"]["size"];
+            $filename = $fileObj["file"]["name"];
+            $filetype = $fileObj["file"]["type"];
+            $filesize = $fileObj["file"]["size"];
 
             // Verify file extension
             $ext = pathinfo($filename, PATHINFO_EXTENSION);
@@ -80,12 +83,12 @@ class Discussion
 
             // Verify MEME type of the file
             if(in_array($filetype, $allowed)) {
-                $filename = uniqid() . $filename;
-                move_uploaded_file($_FILES["file"]["tmp_name"], "{$path}" . $filename);
+                $filename = uniqid() .'-'. $filename;
+                move_uploaded_file($fileObj["file"]["tmp_name"], "{$movedToPath}" . $filename);
                 $response = [
                     'success' => true,
                     'message' => 'File uploaded and save in local directory',
-                    'file_path' => $filename
+                    'file_path' => $path . $filename
                 ];
             } else {
                 $response = [
@@ -96,10 +99,9 @@ class Discussion
         } else {
             $response = [
                 'success' => false,
-                'message' => "Error: " . $_FILES["file"]["error"]
+                'message' => "Increase upload_max_filesize in php.ini file" ." Error: ". $fileObj["file"]["error"]
             ];
         }
-
 
         return $response;
     }
