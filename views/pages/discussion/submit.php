@@ -1,5 +1,5 @@
 <?php
-
+sleep(1);
 require_once "../../../autoload_files.php";
 require_once root_path() . '/config/Database.php';
 
@@ -29,8 +29,9 @@ class Discussion
                 $res = $this->uploadFile($_FILES);
                 if (!$res['success']) { // means error
                     echo json_encode([
-                        'success' => $res['success'],
-                        'message' => $res['message']
+                        'success'   => $res['success'],
+                        'message'   => $res['message'],
+                        'data'      => $res['data']
                     ]);
                     exit;
                 }
@@ -48,11 +49,11 @@ class Discussion
                 'file_path' => isset($file_path) ? $file_path : '',
             ]);
             $this->conn->commit();
-            echo json_encode(['success' => true, 'message' => 'Record Added!']);
+            echo json_encode(['success' => true, 'message' => 'Record Added!', 'data'=> []]);
 
         } catch (Exception $e) {
             $this->conn->rollback();
-            echo json_encode(['success' => false, 'message' => 'Data Not saved', 'errors' => $e->getMessage()]);
+            echo json_encode(['success' => false, 'message' => 'Data Not saved', 'data' => [$e->getMessage()]]);
         }
     }
 
@@ -63,8 +64,11 @@ class Discussion
         ini_set('upload_max_filesize', '128M');
         ini_set('post_max_size', '128M'); // it will be greater to same like upload_max_filesize
 
-        $movedToPath = filesUploadPath();
+        $movedToPath = filesUploadPath();  // comes from autoload_files.php
         $path = FILES_PATH; // comes from autoload_files.php
+        if (!file_exists($movedToPath)) {
+            mkdir($movedToPath, 0777, true);
+        }
 
         $response = [];
         if(isset($fileObj["file"]) && $fileObj["file"]["error"] == 0) {
@@ -75,11 +79,11 @@ class Discussion
 
             // Verify file extension
             $ext = pathinfo($filename, PATHINFO_EXTENSION);
-            if(!array_key_exists($ext, $allowed)) return $response = ['success' => false, 'message' => 'Error: Please select a valid file format.'];
+            if(!array_key_exists($ext, $allowed)) return ['success' => false, 'message' => 'Error: Please select a valid file format.', 'data' => ['Pdf allow']];
 
             // Verify file size - 140MB maximum
             $maxsize = 140 * 1024 * 1024;
-            if($filesize > $maxsize) die("Error: File size is larger than the allowed limit.");
+            if($filesize > $maxsize) return ['success' => false, 'message' => 'Error: File size is larger than the allowed limit.', 'data' => []];
 
             // Verify MEME type of the file
             if(in_array($filetype, $allowed)) {
@@ -93,13 +97,15 @@ class Discussion
             } else {
                 $response = [
                     'success' => false,
-                    'message' => "Error: There was a problem uploading your file. Please try again."
+                    'message' => "Error: There was a problem uploading your file. Please try again.",
+                    'data' => []
                 ];
             }
         } else {
             $response = [
                 'success' => false,
-                'message' => "Increase upload_max_filesize in php.ini file" ." Error: ". $fileObj["file"]["error"]
+                'message' => "Increase upload_max_filesize in php.ini file" ." Error: ". $fileObj["file"]["error"],
+                'data' => []
             ];
         }
 
