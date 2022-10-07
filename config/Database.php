@@ -1,5 +1,10 @@
 <?php
 
+namespace config\Database;
+
+use Exception;
+use PDO;
+
 class Database {
 
     private static $dsn      = "mysql:host=localhost;dbname=projectdb;";

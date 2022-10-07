@@ -11,7 +11,7 @@
                     <a href="<?php echo base_url() . 'views/pages/discussion/list.php' ?>" class="btn btn-sm btn-dark float-end">View List</a>
                 </div>
                 <div class="card-body text-dark">
-                    <form method="post" action="" enctype="multipart/form-data" autocomplete="off">
+                    <form method="post" action="submit.php" enctype="multipart/form-data" autocomplete="off">
                         <div class="mb-3">
                             <label for="file_number" class="form-label">File No:</label>
                             <input type="text" name="file_number" id="file_number" class="form-control" aria-describedby="file_number">
@@ -34,7 +34,7 @@
 
                         <div class="mb-3">
                             <label for="file_year" class="form-label">File Year:</label>
-                            <input type="date" name="file_year" id="sub_head_no" class="form-control" aria-describedby="file_year">
+                            <input type="text" name="file_year" id="sub_head_no" class="form-control" aria-describedby="file_year">
                         </div>
 
                         <div class="mb-3">
