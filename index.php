@@ -1,8 +1,5 @@
-<?php
-require_once "config/database.php";
-include_once "resources/views/components/header.php";
-include_once "resources/views/components/navigation.php";
-?>
+<?php require_once "autoload_files.php" ?>
+<?php include_once "views/components/header.php"; ?>
 
 
 <div class="container">
@@ -22,4 +19,4 @@ include_once "resources/views/components/navigation.php";
 
 
 
-<?php include_once "resources/views/components/footer.php"; ?>
+<?php include_once root_path() . "/views/components/footer.php"; ?>

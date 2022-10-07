@@ -1,4 +1,3 @@
-<?php require_once "config/general.php" ?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -7,7 +6,9 @@
     <title>Project</title>
 
     <link rel="stylesheet" type="text/css" href="<?php echo base_url() . 'public/plugins/bootstrap-5.2.2/css/bootstrap.min.css' ?>"/>
-    <link rel="stylesheet" type="text/css" href="<?php echo base_url() .'public/plugins/DataTables/datatables.min.css' ?>"/>
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url() . 'public/plugins/DataTables/datatables.min.css' ?>"/>
 
 </head>
 <body>
+
+<?php include_once dirname(__FILE__) . '/navigation.php' ?>
