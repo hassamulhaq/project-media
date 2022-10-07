@@ -3,7 +3,7 @@ sleep(1);
 require_once "../../../autoload_files.php";
 require_once root_path() . '/config/Database.php';
 
-class Discussion
+class FormTask
 {
 
     protected $conn;
@@ -113,6 +113,6 @@ class Discussion
     }
 }
 
-$obj = new Discussion();
+$obj = new FormTask();
 $obj->save();
 
