@@ -87,7 +87,7 @@ class FormTask
 
             // Verify MEME type of the file
             if(in_array($filetype, $allowed)) {
-                $filename = uniqid() .'-'. $filename;
+                $filename = uniqid() .'-'. str_replace(' ', '-', $filename);
                 move_uploaded_file($fileObj["file"]["tmp_name"], "{$movedToPath}" . $filename);
                 $response = [
                     'success' => true,
@@ -112,23 +112,63 @@ class FormTask
         return $response;
     }
 
-
-
-
-
     public function getRecords()
     {
-        return ['N/A'];
+        $statement = $this->conn->prepare('SELECT * FROM files');
+        $statement->execute();
+        $data = $statement->fetchAll(PDO::FETCH_OBJ);
+        return $data;
+    }
+
+    public function deleteRecord($record_id)
+    {
+        $statement = $this->conn->prepare('DELETE FROM files WHERE id = :id LIMIT 1');
+        $statement->execute(['id' => $record_id]);
+
+        $_SESSION["is_deleted"] = ['success' => true, 'message' => 'Record deleted!'];
+        header('Location: ' . $_SERVER['HTTP_REFERER']);
+        exit;
+    }
+
+
+    public function downloadFile($file_path)
+    {
+        if (file_exists("../../../" . $file_path)) {
+            header('Content-Description: File Transfer');
+            header('Content-Type: application/octet-stream');
+            header('Content-Disposition: attachment; filename='.basename($file_path));
+            header('Content-Transfer-Encoding: binary');
+            header('Expires: 0');
+            header('Cache-Control: must-revalidate');
+            header('Pragma: public');
+            header('Content-Length: ' . filesize($file_path));
+            ob_clean();
+            flush();
+            readfile($file_path);
+            exit;
+        } else {
+            echo json_encode(['message' => 'No file exists, or something went wrong']);
+        }
+
+        exit;
     }
 }
 
 // save data to database
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if (isset($_POST['new_record'])) {
     $obj = new FormTask();
     $obj->save();
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+
+if (isset($_POST['file_download'])) {
+    $file_path = $_POST['file_path'];
     $obj = new FormTask();
-    $obj->getRecords();
+    $obj->downloadFile($file_path);
+}
+
+if (isset($_POST['delete_record'])) {
+    $record_id = $_POST['record_id'];
+    $obj = new FormTask();
+    $obj->deleteRecord($record_id);
 }

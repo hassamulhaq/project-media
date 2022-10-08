@@ -22,7 +22,8 @@ function RenderPDF(param_url) {
     const pdfjsLib = window['pdfjs-dist/build/pdf'];
 
 // The workerSrc property shall be specified.
-    pdfjsLib.GlobalWorkerOptions.workerSrc = '//mozilla.github.io/pdf.js/build/pdf.worker.js';
+    //pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://mozilla.github.io/pdf.js/build/pdf.worker.js';
+    pdfjsLib.GlobalWorkerOptions.workerSrc = '../../../public/plugins/pdfjs-build/pdf.worker.js';
 
     let pdfDoc = null,
         pageNum = 1,

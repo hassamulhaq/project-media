@@ -13,6 +13,13 @@
     }
 </style>
 
+
+<?php
+require_once root_path() . "/views/pages/discussion/get-and-save.php";
+$obj = new FormTask();
+$records = $obj->getRecords();
+?>
+
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
@@ -35,26 +42,43 @@
                                     <th scope="col">Download</th>
                                     <th scope="col">View</th>
                                     <th scope="col">Delete</th>
+                                    <th scope="col">Created at</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>125</td>
-                                    <td>Financial Matter</td>
-                                    <td>1</td>
-                                    <td>2</td>
-                                    <td>2022</td>
-                                    <td><a href="" class="btn btn-sm btn-light border rounded-0">🔽 Download</a></td>
-                                    <td>
-                                        <a href="javascript:void(0)"
-                                           onclick="RenderPDF('http://localhost/project/public/files/63409570b6469-FIBS%20MARKETING%20TEAM.pdf');"
-                                           data-bs-toggle="modal"
-                                           data-bs-target="#genericPdfModal"
-                                           class="btn btn-sm btn-success rounded-0">View</a>
-                                    </td>
-                                    <td><a href="" class="btn btn-sm btn-danger rounded-0">Delete</a></td>
-                                </tr>
+                                    <?php if ($records) { ?>
+                                        <?php foreach ($records as $index => $record) { ?>
+                                            <tr>
+                                                <td scope="row"><?= $record->id ?></td>
+                                                <td><?= $record->file_number ?></td>
+                                                <td><?= $record->subject ?></td>
+                                                <td><?= $record->f_head_no ?></td>
+                                                <td><?= $record->sub_head_no ?></td>
+                                                <td><?= $record->file_year ?></td>
+                                                <td>
+                                                    <form action="get-and-save.php" method="post" enctype="multipart/form-data">
+                                                        <input type="hidden" name="record_id" value="<?= $record->id ?>">
+                                                        <input type="hidden" name="file_path" value="<?= $record->file_path ?>">
+                                                        <button type="submit" name="file_download" class="btn btn-sm btn-light border rounded-0">🔽 Download</button>
+                                                    </form>
+                                                </td>
+                                                <td>
+                                                    <a href="javascript:void(0)"
+                                                       onclick="RenderPDF('<?= base_url() . $record->file_path ?>');"
+                                                       data-bs-toggle="modal"
+                                                       data-bs-target="#genericPdfModal"
+                                                       class="btn btn-sm btn-success rounded-0">View</a>
+                                                </td>
+                                                <td>
+                                                    <form action="get-and-save.php" method="post" enctype="multipart/form-data">
+                                                        <input type="hidden" name="record_id" value="<?= $record->id ?>">
+                                                        <button type="submit" name="delete_record" class="btn btn-sm btn-danger rounded-0">Delete</button>
+                                                    </form>
+                                                </td>
+                                                <td><?= $record->created_at ?></td>
+                                            </tr>
+                                        <?php } ?>
+                                    <?php } ?>
                                 </tbody>
                                 <tfoot>
                                 <tr>
@@ -67,6 +91,7 @@
                                     <th scope="col">Download</th>
                                     <th scope="col">View</th>
                                     <th scope="col">Delete</th>
+                                    <th scope="col">Created At</th>
                                 </tr>
                                 </tfoot>
                             </table>
@@ -110,3 +135,18 @@
 
 
 <?php include_once root_path() . '/views/components/footer.php' ?>
+<script src="<?php echo base_url() . 'public/dist/js/serverside-datatables.js' ?>"></script>
+
+<script>
+    <?php if (isset($_SESSION['is_deleted']) && $_SESSION['is_deleted']['success']) { ?>
+    Toast.fire({
+        icon: "success",
+        title: "<?php echo $_SESSION['is_deleted']['message'] ?>"
+    })
+    <?php
+        // set session set to null after Toast trigger.
+        // new session will auto generate when record deleted in get-and-save.php
+        $_SESSION['is_deleted'] = null
+    ?>
+    <?php } ?>
+</script>

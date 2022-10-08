@@ -12,6 +12,7 @@
                 </div>
                 <div class="card-body text-dark">
                     <form class="ajax_form" method="post" action="get-and-save.php" enctype="multipart/form-data" autocomplete="off">
+                        <input type="hidden" name="new_record" value="true">
                         <div class="mb-3">
                             <label for="file_number" class="form-label">File No:</label>
                             <input type="text" name="file_number" id="file_number" class="form-control" aria-describedby="file_number">
