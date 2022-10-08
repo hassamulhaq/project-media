@@ -6,10 +6,13 @@
     <div class="row">
         <div class="col-12">
             <div class="card border-dark mb-3" style="max-width: 18rem;">
-                <div class="card-header">Header</div>
+                <div class="card-header">Homepage</div>
                 <div class="card-body text-dark">
-                    <h5 class="card-title">Dark card title</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <h5 class="card-title">PHP Mini APP</h5>
+                    <p class="card-text">PHP OOP - Ajax based mini project.</p>
+                </div>
+                <div class="card-footer">
+                    <a href="<?php echo base_url() . '/views/pages/discussion/list.php' ?>" class="btn btn-sm btn-light">Get Started</a>
                 </div>
             </div>
         </div>
