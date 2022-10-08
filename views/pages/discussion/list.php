@@ -6,6 +6,11 @@
         padding-top: 6px;
         padding-bottom: 6px;
     }
+    #the-canvas {
+        border: 1px solid black;
+        direction: ltr;
+        width: 100%;
+    }
 </style>
 
     <div class="container">
@@ -42,7 +47,7 @@
                                     <td>2022</td>
                                     <td><a href="" class="btn btn-sm btn-light border rounded-0">🔽 Download</a></td>
                                     <td>
-                                        <a href="" data-bs-toggle="modal" data-bs-target="#staticMediaModal" class="btn btn-sm btn-success rounded-0">View</a>
+                                        <a href="javascript:void(0)" onclick="RenderPDF();" data-bs-toggle="modal" data-bs-target="#staticMediaModal" class="btn btn-sm btn-success rounded-0">View</a>
                                     </td>
                                     <td><a href="" class="btn btn-sm btn-danger rounded-0">Delete</a></td>
                                 </tr>
@@ -75,7 +80,7 @@
 <!--</button>-->
 
 <!-- Modal -->
-<div class="modal fade" id="staticMediaModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticMediaModalLabel" aria-hidden="true">
+<div class="modal modal-lg fade" id="staticMediaModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticMediaModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
@@ -83,7 +88,14 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                ...
+                <div>
+                    <button id="prev">Previous</button>
+                    <button id="next">Next</button>
+                    &nbsp; &nbsp;
+                    <span>Page: <span id="page_num"></span> / <span id="page_count"></span></span>
+                </div>
+                <canvas id="the-canvas"></canvas>
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-sm btn-dark rounded-0" data-bs-dismiss="modal">Close</button>

@@ -8,6 +8,9 @@
     <link rel="stylesheet" type="text/css" href="<?php echo base_url() . 'public/plugins/bootstrap-5.2.2/css/bootstrap.min.css' ?>"/>
     <link rel="stylesheet" type="text/css" href="<?php echo base_url() . 'public/plugins/DataTables/datatables.min.css' ?>"/>
     <link rel="stylesheet" href="<?php echo base_url() .  'public/plugins/sweetalert2/sweetalert2.min.css' ?>" />
+    <script src="<?php echo base_url() . 'public/plugins/jQuery-3.6.0/jquery-3.6.0.min.js' ?>"></script>
+<!--    <script src="--><?php //echo base_url() .  'public/plugins/pdfjs-2.16.105/pdf.min.js' ?><!--"></script>-->
+    <script src="//mozilla.github.io/pdf.js/build/pdf.js"></script>
 
 </head>
 <body>

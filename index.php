@@ -1,5 +1,5 @@
 <?php require_once "autoload_files.php" ?>
-<?php include_once "views/components/header.php"; ?>
+<?php include_once root_path() . "/views/components/header.php"; ?>
 
 
 <div class="container">
