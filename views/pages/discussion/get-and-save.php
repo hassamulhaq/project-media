@@ -13,6 +13,14 @@ class FormTask
         $this->conn = $conn;
     }
 
+    private function getAbsoluteFilePath($filename) {
+        // files are saved in public/file/...
+        // In database we save /public/file/filename.pdf
+        // while deleting we need absolute path from current file
+
+        return "../../../" . $filename;
+    }
+
     public function save()
     {
         try {
@@ -120,12 +128,21 @@ class FormTask
         return $data;
     }
 
-    public function deleteRecord($record_id)
+    public function deleteRecord($record_id, $file_path)
     {
         $statement = $this->conn->prepare('DELETE FROM files WHERE id = :id LIMIT 1');
         $statement->execute(['id' => $record_id]);
 
         $_SESSION["is_deleted"] = ['success' => true, 'message' => 'Record deleted!'];
+
+        if ($file_path !== '') {
+            $absolute_file_path = $this->getAbsoluteFilePath($file_path);
+            if (file_exists($absolute_file_path)) {
+                unlink($absolute_file_path);
+                $_SESSION["is_deleted"] = ['success' => true, 'message' => 'Record & File both removed!'];
+            }
+        }
+
         header('Location: ' . $_SERVER['HTTP_REFERER']);
         exit;
     }
@@ -133,7 +150,8 @@ class FormTask
 
     public function downloadFile($file_path)
     {
-        if (file_exists("../../../" . $file_path)) {
+        $absolute_file_path = $this->getAbsoluteFilePath($file_path);
+        if (file_exists($absolute_file_path)) {
             header('Content-Description: File Transfer');
             header('Content-Type: application/octet-stream');
             header('Content-Disposition: attachment; filename='.basename($file_path));
@@ -169,6 +187,7 @@ if (isset($_POST['file_download'])) {
 
 if (isset($_POST['delete_record'])) {
     $record_id = $_POST['record_id'];
+    $file_path = $_POST['file_path'];
     $obj = new FormTask();
-    $obj->deleteRecord($record_id);
+    $obj->deleteRecord($record_id, $file_path);
 }

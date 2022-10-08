@@ -56,22 +56,27 @@ $records = $obj->getRecords();
                                                 <td><?= $record->sub_head_no ?></td>
                                                 <td><?= $record->file_year ?></td>
                                                 <td>
+                                                    <?php if (!is_null($record->file_path) && $record->file_path !== '') { ?>
+                                                        <form action="get-and-save.php" method="post" enctype="multipart/form-data">
+                                                            <input type="hidden" name="record_id" value="<?= $record->id ?>">
+                                                            <input type="hidden" name="file_path" value="<?= $record->file_path ?>">
+                                                            <button type="submit" name="file_download" class="btn btn-sm btn-light border rounded-0">🔽 Download</button>
+                                                        </form>
+                                                    <?php } else echo '❕ N/A' ?>
+                                                </td>
+                                                <td>
+                                                    <?php if (!is_null($record->file_path) && $record->file_path !== '') { ?>
+                                                        <a href="javascript:void(0)"
+                                                           onclick="RenderPDF('<?= base_url() . $record->file_path ?>');"
+                                                           data-bs-toggle="modal"
+                                                           data-bs-target="#genericPdfModal"
+                                                           class="btn btn-sm btn-success rounded-0">View</a>
+                                                    <?php } else echo '❕ N/A' ?>
+                                                </td>
+                                                <td>
                                                     <form action="get-and-save.php" method="post" enctype="multipart/form-data">
                                                         <input type="hidden" name="record_id" value="<?= $record->id ?>">
                                                         <input type="hidden" name="file_path" value="<?= $record->file_path ?>">
-                                                        <button type="submit" name="file_download" class="btn btn-sm btn-light border rounded-0">🔽 Download</button>
-                                                    </form>
-                                                </td>
-                                                <td>
-                                                    <a href="javascript:void(0)"
-                                                       onclick="RenderPDF('<?= base_url() . $record->file_path ?>');"
-                                                       data-bs-toggle="modal"
-                                                       data-bs-target="#genericPdfModal"
-                                                       class="btn btn-sm btn-success rounded-0">View</a>
-                                                </td>
-                                                <td>
-                                                    <form action="get-and-save.php" method="post" enctype="multipart/form-data">
-                                                        <input type="hidden" name="record_id" value="<?= $record->id ?>">
                                                         <button type="submit" name="delete_record" class="btn btn-sm btn-danger rounded-0">Delete</button>
                                                     </form>
                                                 </td>
