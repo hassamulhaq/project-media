@@ -56,13 +56,16 @@ $records = $obj->getRecords();
                                                 <td><?= $record->sub_head_no ?></td>
                                                 <td><?= $record->file_year ?></td>
                                                 <td>
-                                                    <?php if (!is_null($record->file_path) && $record->file_path !== '') { ?>
-                                                        <form action="get-and-save.php" method="post" enctype="multipart/form-data">
-                                                            <input type="hidden" name="record_id" value="<?= $record->id ?>">
-                                                            <input type="hidden" name="file_path" value="<?= $record->file_path ?>">
-                                                            <button type="submit" name="file_download" class="btn btn-sm btn-light border rounded-0">🔽 Download</button>
-                                                        </form>
-                                                    <?php } else echo '❕ N/A' ?>
+                                                    <div class="btn-group">
+                                                        <?php if (!is_null($record->file_path) && $record->file_path !== '') { ?>
+                                                            <form action="get-and-save.php" method="post" enctype="multipart/form-data">
+                                                                <input type="hidden" name="record_id" value="<?= $record->id ?>">
+                                                                <input type="hidden" name="file_path" value="<?= $record->file_path ?>">
+                                                                <button type="submit" name="file_download" class="btn btn-sm btn-light border rounded-0">🔽 Download</button>
+                                                            </form>
+                                                            <a href="<?= base_url() . $record->file_path ?>" target="_blank" class="btn btn-sm btn-light border rounded-0">🔰</a>
+                                                        <?php } else echo '❕ N/A' ?>
+                                                    </div>
                                                 </td>
                                                 <td>
                                                     <?php if (!is_null($record->file_path) && $record->file_path !== '') { ?>
