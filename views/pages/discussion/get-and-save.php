@@ -21,6 +21,16 @@ class FormTask
         return "../../../" . $filename;
     }
 
+    private function validateInputs($inputs) {
+        foreach ($inputs as $input) {
+            if ($input === '' || is_null($input)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     public function save()
     {
         try {
@@ -31,6 +41,17 @@ class FormTask
             $f_head_no = $_POST['f_head_no'];
             $sub_head_no = $_POST['sub_head_no'];
             $file_year = $_POST['file_year'];
+
+            $res = $this->validateInputs($_POST);
+            if ($res === false) {
+                echo json_encode([
+                    'success' => false,
+                    'message' => 'All inputs required',
+                    'data' => ['Blank Inputs' => 'Fill all inputs']]);
+                exit;
+            }
+
+
 
             // check if user selected a file
             if(!empty($_FILES["file"]['name'])) {

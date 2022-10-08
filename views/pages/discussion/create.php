@@ -35,7 +35,7 @@
 
                         <div class="mb-3">
                             <label for="file_year" class="form-label">File Year:</label>
-                            <input type="text" name="file_year" id="sub_head_no" class="form-control" aria-describedby="file_year">
+                            <input type="number" name="file_year" id="sub_head_no" min="1900" max="5099" step="1" placeholder="YYYY" class="form-control" aria-describedby="file_year">
                         </div>
 
                         <div class="mb-3">
