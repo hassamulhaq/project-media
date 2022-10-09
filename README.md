@@ -11,6 +11,8 @@ e.g
 const PROJECT_NAME = null;
 ```
 
+If you host it on subdomain then add sub-domain in `const PROJECT_NAME` is to `sub.domain.com`
+
 ___
 
 #### Run locally like localhost then
