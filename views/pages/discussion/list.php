@@ -42,7 +42,7 @@ $records = $obj->getRecords();
                                     <th scope="col">Download</th>
                                     <th scope="col">View</th>
                                     <th scope="col">Delete</th>
-                                    <th scope="col">Created at</th>
+                                    <!-- <th scope="col">Created at</th> -->
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -83,7 +83,7 @@ $records = $obj->getRecords();
                                                         <button type="submit" name="delete_record" class="btn btn-sm btn-danger rounded-0">Delete</button>
                                                     </form>
                                                 </td>
-                                                <td><?= $record->created_at ?></td>
+                                                <!-- <td><?php //echo $record->created_at ?></td> -->
                                             </tr>
                                         <?php } ?>
                                     <?php } ?>
@@ -99,7 +99,7 @@ $records = $obj->getRecords();
                                     <th scope="col">Download</th>
                                     <th scope="col">View</th>
                                     <th scope="col">Delete</th>
-                                    <th scope="col">Created At</th>
+                                    <!-- <th scope="col">Created At</th> -->
                                 </tr>
                                 </tfoot>
                             </table>
