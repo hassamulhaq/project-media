@@ -39,8 +39,8 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="file" class="form-label">File</label>
-                            <input type="file" name="file" id="file" class="form-control" aria-describedby="file">
+                            <label for="file" class="form-label">File <small class="small">(PDF only)</small> </label>
+                            <input type="file" name="file" id="file" class="form-control" aria-describedby="file" accept="application/pdf">
                         </div>
 
                         <button type="submit" class="btn btn-dark">Submit</button>
