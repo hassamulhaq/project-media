@@ -55,17 +55,18 @@ class FormTask
 
             // check if user selected a file
             if(!empty($_FILES["file"]['name'])) {
-                $res = $this->uploadFile($_FILES);
-                if (!$res['success']) { // means error
+                $fileUploadResponse = $this->uploadFile($_FILES);
+                if (!$fileUploadResponse['success']) { // means error
                     echo json_encode([
-                        'success'   => $res['success'],
-                        'message'   => $res['message'],
-                        'data'      => $res['data']
+                        'success'   => $fileUploadResponse['success'],
+                        'message'   => $fileUploadResponse['message'],
+                        'data'      => $fileUploadResponse['data']
                     ]);
                     exit;
                 }
 
-                $file_path = $res['file_path'];
+                // If file uploaded then we got path
+                $file_path = $fileUploadResponse['file_path'];
             }
 
             $statement = $this->conn->prepare('INSERT INTO files (subject, file_number, f_head_no, sub_head_no, file_year, file_path) VALUES (:subject, :file_number, :f_head_no, :sub_head_no, :file_year, :file_path)');
@@ -87,7 +88,7 @@ class FormTask
     }
 
 
-    public function uploadFile($fileObj)
+    public function uploadFile($fileObj): array
     {
         ini_set('file_uploads', 'on');
         ini_set('upload_max_filesize', '2048M');
@@ -108,8 +109,7 @@ class FormTask
                 'message' => "Increase upload_max_filesize in php.ini or check on google" ." Error Code: ". $fileObj["file"]["error"],
                 'data' => []
             ];
-            echo json_encode($response);
-            exit;
+            return $response;
         }
 
 
@@ -123,23 +123,20 @@ class FormTask
             $ext = pathinfo($filename, PATHINFO_EXTENSION);
             if(!array_key_exists($ext, $allowed)) {
                 $response = ['success' => false, 'message' => 'Error: Please select a valid file format.', 'data' => (array) $allowed];
-                echo json_encode($response);
-                exit;
+                return $response;
             }
 
             // Verify MEME type of the file
             if(!in_array($filetype, $allowed)) {
                 $response = ['success' => false, 'message' => "Error: Meme type is not valid", 'data' => []];
-                echo json_encode($response);
-                exit;
+                return $response;
             }
 
             // Verify file size - 2048M maximum
             $maxsize = 2048 * 1024 * 1024;
             if($filesize > $maxsize) {
                 $response = ['success' => false, 'message' => 'Error: File size is larger than the allowed limit.', 'data' => []];
-                echo json_encode($response);
-                exit;
+                return $response;
             }
 
             $filename = uniqid() .'-'. str_replace(' ', '-', $filename);
@@ -148,13 +145,13 @@ class FormTask
                 $response = [
                     'success' => true,
                     'message' => 'Record saved, File uploaded and save in local directory',
+                    'file_path' => $path . $filename,
                     'data' => []
                 ];
             } else $response = ['success' => false, 'message' => "Error: There was a problem uploading your file. Please try again.", 'data' => []];
         }
 
-        echo json_encode($response);
-        exit;
+        return $response;
     }
 
     public function getRecords()
