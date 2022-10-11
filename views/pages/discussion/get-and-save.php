@@ -69,7 +69,7 @@ class FormTask
                 $file_path = $fileUploadResponse['file_path'];
             }
 
-            $statement = $this->conn->prepare('INSERT INTO files (subject, file_number, f_head_no, sub_head_no, file_year, file_path) VALUES (:subject, :file_number, :f_head_no, :sub_head_no, :file_year, :file_path)');
+            $statement = $this->conn->prepare('INSERT INTO file_records (subject, file_number, f_head_no, sub_head_no, file_year, file_path) VALUES (:subject, :file_number, :f_head_no, :sub_head_no, :file_year, :file_path)');
             $statement->execute([
                 'subject' => $subject,
                 'file_number' => $file_number,
@@ -156,7 +156,15 @@ class FormTask
 
     public function getRecords()
     {
-        $statement = $this->conn->prepare('SELECT * FROM files');
+        $statement = $this->conn->prepare('SELECT * FROM file_records');
+        $statement->execute();
+        $data = $statement->fetchAll(PDO::FETCH_OBJ);
+        return $data;
+    }
+
+    public function getFilteredRecords($year = null)
+    {
+        $statement = $this->conn->prepare("SELECT * FROM file_records WHERE file_year = '$year' ORDER BY file_year ");
         $statement->execute();
         $data = $statement->fetchAll(PDO::FETCH_OBJ);
         return $data;
@@ -164,7 +172,7 @@ class FormTask
 
     public function deleteRecord($record_id, $file_path)
     {
-        $statement = $this->conn->prepare('DELETE FROM files WHERE id = :id LIMIT 1');
+        $statement = $this->conn->prepare('DELETE FROM file_records WHERE id = :id LIMIT 1');
         $statement->execute(['id' => $record_id]);
 
         $_SESSION["is_deleted"] = ['success' => true, 'message' => 'Record deleted!'];

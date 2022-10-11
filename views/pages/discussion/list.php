@@ -16,8 +16,15 @@
 
 <?php
 require_once root_path() . "/views/pages/discussion/get-and-save.php";
-$obj = new FormTask();
-$records = $obj->getRecords();
+
+if (isset($_GET['filter_by_year'])) {
+    $date = $_GET['filter_by_year'];
+    $obj = new FormTask();
+    $records = $obj->getFilteredRecords($date);
+} else {
+    $obj = new FormTask();
+    $records = $obj->getRecords();
+}
 ?>
 
     <div class="container">
@@ -25,8 +32,30 @@ $records = $obj->getRecords();
             <div class="col-lg-12">
                 <div class="card border-dark mb-3">
                     <div class="card-header">
-                        Records
-                        <a href="<?php echo base_url() . 'views/pages/discussion/create.php' ?>" class="btn btn-sm btn-dark float-end">Create New</a>
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <ul class="nav nav-pills card-header-pills">
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" href="list.php">Records List</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="<?php echo base_url() . 'views/pages/discussion/create.php' ?>" class="nav-link">Create New</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div>
+                                <div class="input-group input-group-sm float-end">
+                                    <form class="form-inline d-flex gap-1 align-items-center" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="get" autocomplete="off">
+                                        <label for="filter_by_date" class="text-nowrap">Filter By Year</label>
+                                        <input type="number" id="filter_by_date" name="filter_by_year"  placeholder="yyyy" class="form-control form-control-sm" value="<?php echo (isset($_GET['filter_by_year']) ? $_GET['filter_by_year'] : '') ?>">
+                                        <div class="input-group-append">
+                                            <input type="submit" value="search" class="btn btn-sm btn-dark">
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                     <div class="card-body text-dark">
                         <div id="datatable-wrapper">
@@ -105,6 +134,7 @@ $records = $obj->getRecords();
                             </table>
                         </div>
                     </div>
+                    <div class="card-footer"></div>
                 </div>
             </div>
         </div>
