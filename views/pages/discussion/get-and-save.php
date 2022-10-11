@@ -1,5 +1,5 @@
 <?php
-sleep(0);
+sleep(1);
 require_once "../../../autoload_files.php";
 require_once root_path() . '/config/Database.php';
 
@@ -90,8 +90,8 @@ class FormTask
     public function uploadFile($fileObj)
     {
         ini_set('file_uploads', 'on');
-        ini_set('upload_max_filesize', '128M');
-        ini_set('post_max_size', '128M'); // it will be greater to same like upload_max_filesize
+        ini_set('upload_max_filesize', '2048M');
+        ini_set('post_max_size', '2048M'); // it will be greater to same like upload_max_filesize
 
         $movedToPath = filesUploadPath();  // comes from autoload_files.php
         $path = FILES_PATH; // comes from autoload_files.php
@@ -100,7 +100,20 @@ class FormTask
         }
 
         $response = [];
-        if(isset($fileObj["file"]) && $fileObj["file"]["error"] == 0) {
+
+        // if there is an error
+        if(isset($fileObj["file"]) && $fileObj["file"]["error"] !== 0) {
+            $response = [
+                'success' => false,
+                'message' => "Increase upload_max_filesize in php.ini or check on google" ." Error Code: ". $fileObj["file"]["error"],
+                'data' => []
+            ];
+            echo json_encode($response);
+            exit;
+        }
+
+
+        if(isset($fileObj["file"]) && $fileObj["file"]["error"] === 0) {
             $allowed = array("pdf" => "application/pdf");
             $filename = $fileObj["file"]["name"];
             $filetype = $fileObj["file"]["type"];
@@ -108,37 +121,40 @@ class FormTask
 
             // Verify file extension
             $ext = pathinfo($filename, PATHINFO_EXTENSION);
-            if(!array_key_exists($ext, $allowed)) return ['success' => false, 'message' => 'Error: Please select a valid file format.', 'data' => ['Pdf allow']];
-
-            // Verify file size - 140MB maximum
-            $maxsize = 140 * 1024 * 1024;
-            if($filesize > $maxsize) return ['success' => false, 'message' => 'Error: File size is larger than the allowed limit.', 'data' => []];
+            if(!array_key_exists($ext, $allowed)) {
+                $response = ['success' => false, 'message' => 'Error: Please select a valid file format.', 'data' => (array) $allowed];
+                echo json_encode($response);
+                exit;
+            }
 
             // Verify MEME type of the file
-            if(in_array($filetype, $allowed)) {
-                $filename = uniqid() .'-'. str_replace(' ', '-', $filename);
-                move_uploaded_file($fileObj["file"]["tmp_name"], "{$movedToPath}" . $filename);
+            if(!in_array($filetype, $allowed)) {
+                $response = ['success' => false, 'message' => "Error: Meme type is not valid", 'data' => []];
+                echo json_encode($response);
+                exit;
+            }
+
+            // Verify file size - 2048M maximum
+            $maxsize = 2048 * 1024 * 1024;
+            if($filesize > $maxsize) {
+                $response = ['success' => false, 'message' => 'Error: File size is larger than the allowed limit.', 'data' => []];
+                echo json_encode($response);
+                exit;
+            }
+
+            $filename = uniqid() .'-'. str_replace(' ', '-', $filename);
+            $moved = move_uploaded_file($fileObj["file"]["tmp_name"], "{$movedToPath}" . $filename);
+            if ($moved) {
                 $response = [
                     'success' => true,
-                    'message' => 'File uploaded and save in local directory',
-                    'file_path' => $path . $filename
-                ];
-            } else {
-                $response = [
-                    'success' => false,
-                    'message' => "Error: There was a problem uploading your file. Please try again.",
+                    'message' => 'Record saved, File uploaded and save in local directory',
                     'data' => []
                 ];
-            }
-        } else {
-            $response = [
-                'success' => false,
-                'message' => "Increase upload_max_filesize in php.ini file" ." Error: ". $fileObj["file"]["error"],
-                'data' => []
-            ];
+            } else $response = ['success' => false, 'message' => "Error: There was a problem uploading your file. Please try again.", 'data' => []];
         }
 
-        return $response;
+        echo json_encode($response);
+        exit;
     }
 
     public function getRecords()

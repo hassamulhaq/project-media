@@ -21,9 +21,6 @@ function ajaxRequest(e) {
     const method = $form.attr('method')
     const formData = new FormData($form[0]);
 
-    let ajax_progress = $('#ajax_progress')
-    let ajax_progress_bar = ajax_progress.children('.progress-bar');
-
     showSpinner();
     $.ajax({
         xhr: function () {
@@ -31,6 +28,7 @@ function ajaxRequest(e) {
             xhr.upload.addEventListener("progress", function (evt) {
                 if (evt.lengthComputable) {
                     const percentComplete = Math.round((evt.loaded / evt.total) * 100)
+                    let ajax_progress_bar = $('.progress-bar');
                     ajax_progress_bar.width(percentComplete + '%');
                     ajax_progress_bar.html(percentComplete + '%');
                 }
@@ -45,12 +43,12 @@ function ajaxRequest(e) {
         processData: false,
         dataType: "JSON",
         beforeSend: function () {
-            ajax_progress_bar.width('0%');
+            //ajax_progress_bar.width('0%');
         },
         error: function (response) {
             if (SHOW_CONSOLE_MSG) console.log('fail:', response)
-            alertAjaxResponse(response);
-            removeSpinner()
+            //alertAjaxResponse(response);
+            //removeSpinner()
         },
         success: function (response) {
             if (SHOW_CONSOLE_MSG) console.log('true:', response)
