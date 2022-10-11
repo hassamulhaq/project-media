@@ -39,7 +39,7 @@ if (isset($_GET['filter_by_year'])) {
                                         <a class="nav-link text-dark" href="list.php">Records List</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="<?php echo base_url() . 'views/pages/discussion/create.php' ?>" class="nav-link">Create New</a>
+                                        <a href="<?php echo base_url() . 'views/pages/file_records/create.php' ?>" class="nav-link">Create New</a>
                                     </li>
                                 </ul>
                             </div>

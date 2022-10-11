@@ -8,7 +8,7 @@
             <div class="card border-dark mb-3">
                 <div class="card-header">
                     Create New Record
-                    <a href="<?php echo base_url() . 'views/pages/discussion/list.php' ?>" class="btn btn-sm btn-dark float-end">View List</a>
+                    <a href="<?php echo base_url() . 'views/pages/file_records/list.php' ?>" class="btn btn-sm btn-dark float-end">View List</a>
                 </div>
                 <div class="card-body text-dark">
                     <form class="ajax_form" method="post" action="get-and-save.php" enctype="multipart/form-data" autocomplete="off">
