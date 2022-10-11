@@ -117,7 +117,7 @@ $records = $obj->getRecords();
 <!--</button>-->
 
 <!-- Modal -->
-<div class="modal modal-lg fade" id="genericPdfModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="genericPdfModalLabel" aria-hidden="true">
+<div class="modal modal-xl fade" id="genericPdfModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="genericPdfModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
