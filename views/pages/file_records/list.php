@@ -15,7 +15,7 @@
 
 
 <?php
-require_once root_path() . "/views/pages/discussion/get-and-save.php";
+require_once root_path() . "/views/pages/file_records/get-and-save.php";
 
 if (isset($_GET['filter_by_year'])) {
     $date = $_GET['filter_by_year'];
@@ -151,7 +151,7 @@ if (isset($_GET['filter_by_year'])) {
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="genericPdfModalLabel">Modal title</h1>
+                <h1 class="modal-title fs-5" id="genericPdfModalLabel">Modal Popup (wait until PDF load)</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
