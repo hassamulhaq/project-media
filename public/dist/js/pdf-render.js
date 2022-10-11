@@ -23,7 +23,7 @@ function RenderPDF(param_url) {
 
 // The workerSrc property shall be specified.
     //pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://mozilla.github.io/pdf.js/build/pdf.worker.js';
-    pdfjsLib.GlobalWorkerOptions.workerSrc = '../../../public/plugins/pdfjs-build/pdf.worker.js';
+    pdfjsLib.GlobalWorkerOptions.workerSrc = '../../../public/plugins/pdfjs-2.16.105-dist/build/pdf.worker.js';
 
     let pdfDoc = null,
         pageNum = 1,
