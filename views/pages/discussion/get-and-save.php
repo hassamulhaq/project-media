@@ -90,9 +90,9 @@ class FormTask
 
     public function uploadFile($fileObj): array
     {
-        ini_set('file_uploads', 'on');
-        ini_set('upload_max_filesize', '2048M');
-        ini_set('post_max_size', '2048M'); // it will be greater to same like upload_max_filesize
+//        ini_set('file_uploads', 'on');
+//        ini_set('post_max_size', '2048M');
+//        ini_set('upload_max_filesize', '2048M');
 
         $movedToPath = filesUploadPath();  // comes from autoload_files.php
         $path = FILES_PATH; // comes from autoload_files.php

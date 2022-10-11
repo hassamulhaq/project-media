@@ -11,10 +11,10 @@
 
 
 <!-- PDF.js -->
-<script src="<?php echo base_url() . 'public/plugins/pdfjs-build/pdf.min.js' ?>"></script>
+<script src="<?php echo base_url() . 'public/plugins/pdfjs-2.16.105-dist/build/pdf.js' ?>"></script>
 
 <!-- custom js by hassam.dev -->
-<script src="<?php echo base_url() . 'public/dist/js/pdf-render.js' ?>"></script>
+<script src="<?php echo base_url() . 'public/dist/js/pdfjs-js/pdf-render.js' ?>"></script>
 <script src="<?php echo base_url() . 'public/dist/js/custom.js' ?>"></script>
 
 </body>
