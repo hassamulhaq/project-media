@@ -1,6 +1,6 @@
 
 
-<div style="height: 10px; width: 100%; background-color: #c7c7c7; position: fixed; bottom: 0; right: 0; left: 0;"></div>
+<!--<div style="height: 10px; width: 100%; background-color: #c7c7c7; position: relative; bottom: 0; right: 0; left: 0;"></div>-->
 
 <!-- jquery moved to header -->
 <script src="<?php echo base_url() . 'public/plugins/jQuery-3.6.0/jquery-3.6.0.min.js' ?>"></script>

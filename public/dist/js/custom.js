@@ -21,31 +21,50 @@ function ajaxRequest(e) {
     const method = $form.attr('method')
     const formData = new FormData($form[0]);
 
+    let ajax_progress = $('#ajax_progress')
+    let ajax_progress_bar = ajax_progress.children('.progress-bar');
+
     showSpinner();
-    const jqxhr = $.ajax({
+    $.ajax({
+        xhr: function () {
+            const xhr = new window.XMLHttpRequest();
+            xhr.upload.addEventListener("progress", function (evt) {
+                if (evt.lengthComputable) {
+                    const percentComplete = Math.round((evt.loaded / evt.total) * 100)
+                    ajax_progress_bar.width(percentComplete + '%');
+                    ajax_progress_bar.html(percentComplete + '%');
+                }
+            }, false);
+            return xhr;
+        },
         url: url,
         method: method,
         data: formData,
-        cache:false,
+        cache: false,
         contentType: false,
         processData: false,
         dataType: "JSON",
-    });
-    jqxhr.done(function (response) {
-        removeSpinner()
-        if (SHOW_CONSOLE_MSG) console.log('done:', response)
-        alertAjaxResponse(response);
-        if (response.success === true) $form.trigger('reset');
-    })
-    jqxhr.fail(function (response) {
-        removeSpinner()
-        if (SHOW_CONSOLE_MSG) console.log('fail:', response)
-        alertAjaxResponse(response);
-    })
-    jqxhr.always(function (response) {
-        removeSpinner()
-        //if (SHOW_CONSOLE_MSG) console.log('always:', response)
-        //alertAjaxResponse(response);
+        beforeSend: function () {
+            ajax_progress_bar.width('0%');
+        },
+        error: function (response) {
+            if (SHOW_CONSOLE_MSG) console.log('fail:', response)
+            alertAjaxResponse(response);
+            removeSpinner()
+        },
+        success: function (response) {
+            if (SHOW_CONSOLE_MSG) console.log('true:', response)
+            if (response.success) {
+                alertAjaxResponse(response);
+                $form.trigger('reset');
+            } else if (response.success === false) {
+                if (SHOW_CONSOLE_MSG) console.log('false:', response)
+                alertAjaxResponse(response);
+            } else {
+                console.log(response)
+            }
+            removeSpinner()
+        }
     });
 }
 

@@ -20,7 +20,7 @@
 <style>
     div#screen-spinner {
         position: absolute;
-        background: rgba(255, 255, 255, 0.7);
+        background: rgba(255, 255, 255, 0.78);
         width: 100vw;
         height: 100vh;
         filter: blur(4);
@@ -36,6 +36,15 @@
 <div id="screen-spinner" class="invisible position-absolute screen-spinner fixed top-0 left-0 d-flex flex-column align-items-center justify-content-center">
     <div role="status">
         <div class="spinner-border text-primary"></div>
-        <span class="sr-only">Loading...</span>
+        <small class="sr-only hiding">Loading...</small>
+    </div>
+    <div class="container mt-2">
+        <div class="row">
+            <div class="col-8 offset-2">
+                <div id="ajax_progress" class="progress">
+                    <div class="progress-bar" role="progressbar" style="width: 2%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">2%</div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
