@@ -10,7 +10,7 @@ header("Access-Control-Allow-Origin: *");
  * e,g ``` const PROJECT_NAME = null; ```
  *
  * */
-const PROJECT_NAME = 'project';
+const PROJECT_NAME = null;
 
 function base_url() {
     if (!is_null(PROJECT_NAME)) {

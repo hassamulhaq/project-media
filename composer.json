@@ -1,0 +1,42 @@
+{
+  "name": "php/php",
+  "type": "project",
+  "description": "PHP OOP Ajax based file uploading app",
+  "keywords": [
+    "ajax",
+    "datatables"
+  ],
+  "homepage": "http://127.0.0.1:8080",
+  "license": "MIT",
+  "require": {
+    "php": "^7.4|^8.0|^8.1"
+  },
+  "autoload": {
+    "psr-4": {
+
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests/"
+    }
+  },
+  "scripts": {
+    "start-server": [
+      "php -S 127.0.0.1:8000"
+    ]
+  },
+  "extra": {
+
+  },
+  "config": {
+    "optimize-autoloader": true,
+    "preferred-install": "dist",
+    "sort-packages": true,
+    "allow-plugins": {
+
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}

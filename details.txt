@@ -26,5 +26,3 @@ const PROJECT_NAME = 'project';
 const PROJECT_NAME = 'etc';
 ```
 ___
-
-##

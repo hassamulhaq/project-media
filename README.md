@@ -9,6 +9,11 @@ ___
 Minimum PHP version required 7.0
 ```
 
+Start PHP server
+```
+composer start-server
+```
+
 #### Host on live domain
 set `const PROJECT_NAME` is to `null` in autoload_files.php if you host project on live server (domain)
 e.g
