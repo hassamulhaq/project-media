@@ -1,5 +1,5 @@
 <?php
-sleep(1);
+sleep(0);
 require_once "../../../autoload_files.php";
 require_once root_path() . '/config/Database.php';
 
