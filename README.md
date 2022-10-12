@@ -36,3 +36,6 @@ const PROJECT_NAME = 'project';
 const PROJECT_NAME = 'etc';
 ```
 ___
+
+
+Developed by @devhassam | `https://hassam.dev`
